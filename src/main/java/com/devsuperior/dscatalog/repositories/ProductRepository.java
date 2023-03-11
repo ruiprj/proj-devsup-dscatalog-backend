@@ -15,20 +15,20 @@ import com.devsuperior.dscatalog.projections.ProductProjection;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	@Query(nativeQuery = true, value = """
-		SELECT DISTINCT tb_product.*
-		FROM tb_product
-		INNER JOIN tb_product_category ON tb_product_category.product_id = tb_product.id
-		WHERE (1=0 OR :categoryIds IS NULL OR tb_product_category.category_id IN :categoryIds)
-		AND (LOWER(tb_product.name) LIKE LOWER(CONCAT('%',:name,'%')))
-		ORDER BY tb_product.name
+		SELECT DISTINCT tb_dscatalog_product.*
+		FROM tb_dscatalog_product
+		INNER JOIN tb_dscatalog_product_category ON tb_dscatalog_product_category.product_id = tb_dscatalog_product.id
+		WHERE (1=0 OR :categoryIds IS NULL OR tb_dscatalog_product_category.category_id IN :categoryIds)
+		AND (LOWER(tb_dscatalog_product.name) LIKE LOWER(CONCAT('%',:name,'%')))
+		ORDER BY tb_dscatalog_product.name
 		""",
 		countQuery = """
 		SELECT COUNT(*) FROM (
-		SELECT DISTINCT tb_product.*
-		FROM tb_product
-		INNER JOIN tb_product_category ON tb_product_category.product_id = tb_product.id
-		WHERE (1=0 OR :categoryIds IS NULL OR tb_product_category.category_id IN :categoryIds)
-		AND (LOWER(tb_product.name) LIKE LOWER(CONCAT('%',:name,'%')))
+		SELECT DISTINCT tb_dscatalog_product.*
+		FROM tb_dscatalog_product
+		INNER JOIN tb_dscatalog_product_category ON tb_dscatalog_product_category.product_id = tb_dscatalog_product.id
+		WHERE (1=0 OR :categoryIds IS NULL OR tb_dscatalog_product_category.category_id IN :categoryIds)
+		AND (LOWER(tb_dscatalog_product.name) LIKE LOWER(CONCAT('%',:name,'%')))
 		) as tb_prods
 		""")
 	Page<ProductProjection> searchProducts(List<Long> categoryIds, String name, Pageable pageable);
